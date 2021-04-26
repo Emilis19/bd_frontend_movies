@@ -1,0 +1,24 @@
+    <div
+      class="alert alert-danger"
+      role="alert"
+      *ngIf="!userMovies"
+    >
+      Filmų nerasta
+    </div>
+  <div class="main-container">
+  <div *ngIf="show" class="movies-container">
+  <hr>
+  <div class="movies-list">
+    <div *ngFor="let movie of userMovies" class="movie">
+      <a [routerLink]="['/mymovies/' + movie.id]">
+        <figure>
+          <img src="{{movie.poster}}" alt="">
+        </figure>
+        <span class="title">{{movie.title}}</span>
+        <span class="rate">{{movie.year}}</span>
+        <hr>
+      </a>
+    </div>
+  </div>
+  </div>
+  </div>

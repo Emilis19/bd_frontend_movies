@@ -1,0 +1,67 @@
+<div class="col-md-12">
+    <div class="card card-container">
+      <form
+        *ngIf="!isLoggedIn"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+        <div class="form-group">
+          <label for="username">Vartotojo vardas</label>
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            [(ngModel)]="form.username"
+            required
+            #username="ngModel"
+          />
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="username.errors && f.submitted"
+          >
+            Vartotojo vardas yra privalomas!
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Slaptažodis</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            [(ngModel)]="form.password"
+            required
+            minlength="6"
+            #password="ngModel"
+          />
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="password.errors && f.submitted"
+          >
+            <div *ngIf="password.errors.required">Slaptažodis yra privalomas</div>
+            <div *ngIf="password.errors.minlength">
+              Slaptažodis turi būti bent 6 simbolių
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block">
+            Prisijungti
+          </button>
+        </div>
+        <div class="form-group">
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="f.submitted && isLoginFailed"
+          >
+            Prisijungti nepavyko
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  

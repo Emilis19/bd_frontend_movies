@@ -1,0 +1,14 @@
+<div class="container" *ngIf="currentUser; else loggedOut">
+      <h3 style="margin-top: 50px;">
+        <strong>{{ currentUser.username }}</strong> profilis
+      </h3>
+    <p>
+      <strong>El. paštas:</strong>
+      {{ currentUser.email }}
+    </p>
+  </div>
+  
+  <ng-template #loggedOut>
+    Prašome prisijungti.
+  </ng-template>
+  
