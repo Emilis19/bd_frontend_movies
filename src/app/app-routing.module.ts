@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'movies/:id', component: MovieDetailsComponent },
   { path: 'mymovies', component: UserMoviesComponent },
   { path: 'mymovies/:id', component: UserMovieDetailsComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
+  { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];
 
 @NgModule({

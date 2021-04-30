@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SavedMovie } from '../models/SavedMovie';
 import { MovieService } from '../services/movie.service';
+import { NotificationService } from '../services/notification.service';
 import { TokenStorageService } from '../services/token-storage.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class UserMoviesComponent implements OnInit {
   currentUser: any;
   userMovies: SavedMovie[] | undefined;
 
-  constructor(private token: TokenStorageService, private movieService: MovieService) { }
+  constructor(private token: TokenStorageService, private movieService: MovieService, private notifications: NotificationService) { }
 
   ngOnInit(): void {
     this.currentUser = this.token.getUser();
@@ -22,6 +23,7 @@ export class UserMoviesComponent implements OnInit {
       this.userMovies = data;
       this.show = true;
     }, err => {
+      this.notifications.showError('Filmų nerasta');
       this.show = false;
     })
   }

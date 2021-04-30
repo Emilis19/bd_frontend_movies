@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { NotificationService } from './notification.service';
 
 const AUTH_API = 'http://localhost:8080/api/auth/';
 
@@ -12,7 +13,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private notifications: NotificationService) { }
 
   login(username: string, password: string): Observable<any> {
     return this.http.post(AUTH_API + 'signin', {
@@ -30,6 +31,7 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
+    // this.notifications.showSuccess('Sėkmingai atsijungta nuo sistemos.');
     return this.http.post(AUTH_API + 'logout', httpOptions);
   }
 }

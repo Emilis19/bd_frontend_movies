@@ -15,6 +15,8 @@ import { MovieDetailsComponent } from './movie-details/movie-details.component';
 import { UserMoviesComponent } from './user-movies/user-movies.component';
 import { UserMovieDetailsComponent } from './user-movie-details/user-movie-details.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     AppRoutingModule,
     FormsModule,
     HttpClientModule,

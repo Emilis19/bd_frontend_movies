@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MovieComment } from '../models/MovieComment';
 import { SavedMovieRequest } from '../models/SavedMovieRequest';
+import { UserMovieRating } from '../models/UserMovieRating';
 
 const MOVIE_API = 'http://localhost:8080/api/movies/';
 
@@ -64,5 +65,13 @@ export class MovieService {
 
   deleteComment(id: string): Observable<any> {
     return this.http.delete(MOVIE_API + 'comments/delete/' + id, httpOptions);
+  }
+
+  getMovieRating(imdbId: string): Observable<any> {
+    return this.http.get(MOVIE_API + 'ratings/' + imdbId, httpOptions);
+  }
+
+  saveMovieRating(rating: UserMovieRating): Observable<any> {
+    return this.http.post(MOVIE_API + 'ratings/save', rating, httpOptions);
   }
 }

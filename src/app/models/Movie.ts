@@ -19,4 +19,5 @@ export interface Movie {
     imdbID: string;
     Type: string;
     Response: string;
+    userRating: number;
 }

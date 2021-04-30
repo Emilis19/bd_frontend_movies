@@ -1,8 +1,9 @@
-import { compileInjector } from '@angular/compiler';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { IndividualConfig, ToastrConfig } from 'ngx-toastr';
 import { Movie } from '../models/Movie';
+import { ToasterPosition } from '../models/toastrEnum';
 import { MovieService } from '../services/movie.service';
+import { NotificationService } from '../services/notification.service';
 import { TokenStorageService } from '../services/token-storage.service';
 
 @Component({
@@ -13,11 +14,11 @@ import { TokenStorageService } from '../services/token-storage.service';
 export class MovieSerachComponent implements OnInit {
   show = false;
   currentUser: any;
-  showError = false;
   searchMovies: Movie[] | undefined;
   searchText: any = '';
 
-  constructor(private token: TokenStorageService, private movieService: MovieService, private router: Router) { }
+  constructor(private token: TokenStorageService, private movieService: MovieService,
+              private notifications: NotificationService) { }
 
     ngOnInit(): void {
     this.currentUser = this.token.getUser();
@@ -28,9 +29,8 @@ export class MovieSerachComponent implements OnInit {
       this.movieService.getMovieSearchList(this.searchText).toPromise().then(res => {
         this.searchMovies = res;
         this.show = true;
-        this.showError = false;
       }).catch(err => {
-        this.showError = true;
+        this.notifications.showError('Filmų nerasta');
       });
     }
   }

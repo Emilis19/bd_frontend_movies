@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { NotificationService } from '../services/notification.service';
 import { TokenStorageService } from '../services/token-storage.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   roles: string[] = [];
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { }
+  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router,
+              private notifications: NotificationService) { }
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
@@ -38,8 +40,10 @@ export class LoginComponent implements OnInit {
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getUser().roles;
-        // window.location.reload();
-        this.router.navigate(['home']);
+        this.router.navigate(['home']).then(() => {
+          window.location.reload();
+          this.notifications.showSuccess('Sėkmingai prisijungta kaip vartotojas: ' + username);
+        });
       },
       err => {
         this.errorMessage = err.error.message;

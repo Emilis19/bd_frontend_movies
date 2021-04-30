@@ -22,4 +22,5 @@ export interface SavedMovie {
     type: string;
     response: string;
     movieStatus: string;
+    userRating: number;
 }

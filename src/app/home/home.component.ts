@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, Component, DoCheck, OnInit } from '@angular/core';
 import { Movie } from '../models/Movie';
 import { SavedMovie } from '../models/SavedMovie';
 import { MovieService } from '../services/movie.service';
+import { NotificationService } from '../services/notification.service';
 import { TokenStorageService } from '../services/token-storage.service';
 import { UserService } from '../services/user.service';
 

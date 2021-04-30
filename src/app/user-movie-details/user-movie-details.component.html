@@ -1,76 +1,155 @@
-<div class="movie-info-container" *ngIf="movie">
-    <div *ngIf="show">
-    <div class="alert alert-danger" *ngIf="error" style="margin-top: 10px;">
-        Filmo statusas neatnaujintas.
+<div *ngIf="movie">
+  <div class="movie-info-container" *ngIf="movie">
+    <div class="movie-detail-container">
+      <div class="movie-cover">
+        <img src="{{ movie.poster }}" alt="" />
       </div>
-      <div class="alert alert-success" *ngIf="success" style="margin-top: 10px;">
-        Filmo statusas sėkmingai pakeistas.
-      </div>
-      <div class="alert alert-danger" *ngIf="errorComment" style="margin-top: 10px;">
-        Komentaras nebuvo pridėtas.
-      </div>
-      <div class="alert alert-success" *ngIf="successComment" style="margin-top: 10px;">
-        Komentaras sėkmingai pridėtas.
-      </div>
-      <div class="alert alert-success" *ngIf="errorDelete" style="margin-top: 10px;">
-        Klaida bandant ištrinti filmą iš sąrašo.
+      <div class="movie-detail">
+        <h2>{{ movie.title }}</h2>
+        <div class="short-info">
+          <div class="rate">
+            <!-- <span
+              >Įvertinimas: <strong>{{ rating }}</strong></span
+            > -->
+            <span>Įvertinimas: <b>{{rating}}</b></span>
+            <ngb-rating [(rate)]="ratingForSave" (rateChange)="saveRating($event)">></ngb-rating>
+          </div>
+          <div class="duration">
+            <span
+              >Trukmė: <strong>{{ movie.runtime }}</strong></span
+            >
+          </div>
+          <div class="genres">
+            <span
+              >Žanrai: <strong>{{ movie.genre }}</strong></span
+            >
+          </div>
+        </div>
+        <p class="desc">
+          {{ movie.plot }}
+        </p>
+
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          (click)="deleteMovie()"
+        >
+          Ištrinti filmą iš sąrašo
+        </button>
+        <br />
+        <select
+          class="form-select"
+          [(ngModel)]="selectedStatus"
+          [(ngModel)]="movie.movieStatus"
+          style="margin-top: 10px"
+        >
+          <option value="NO_STATUS">Be statuso</option>
+          <option value="IN_PROGRESS">Žiūrimas dabar</option>
+          <option value="FINISHED">Peržiūrėtas</option>
+        </select>
+        <br />
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          (click)="saveStatus()"
+          style="margin-top: 10px"
+        >
+          Išsaugoti statusą
+        </button>
       </div>
     </div>
-  <div class="movie-detail-container">
-    <div class="movie-cover">
-      <img src="{{movie.poster}}" alt="">
-    </div>
-    <div class="movie-detail">
-      <h2>{{movie.title}}</h2>
-      <div class="short-info">
-        <div class="rate"><span>Įvertinimas: <strong>{{movie.imdbRating}}</strong></span></div>
-        <div class="duration"><span>Trukmė: <strong>{{movie.runtime}}</strong></span></div>
-        <div class="genres">
-          <span>Žanrai: <strong>{{movie.genre}}</strong></span>
+
+    <div>
+      <div class="messages">
+        <h4>Komentarai</h4>
+        <div class="message" *ngFor="let comment of userComments">
+          <div class="pic">
+            <img src="/assets/icons/eye.svg" alt="" />
+          </div>
+          <div class="message-text">
+            <span class="name">{{ comment.name }}</span>
+            <span class="date">{{ comment.date | date: "YYYY-MM-dd" }}</span>
+            <a
+              href="javascript:void(0);"
+              style="color: black"
+              *ngIf="isAdmin || comment.name === currentUser.username"
+              (click)="open(content, comment)"
+            >
+              <i class="fa fa-remove removeComment" aria-hidden="true"></i>
+            </a>
+            <p class="comment">{{ comment.comment }}</p>
+          </div>
         </div>
       </div>
-      <p class="desc">
-        {{movie.plot}}
-      </p>
 
-      <button class="btn btn-outline-secondary" type="button" (click)="deleteMovie()">Ištrinti filmą iš sąrašo</button>
-      <br>
-      <select class="form-select" [(ngModel)]="selectedStatus" [(ngModel)]="movie.movieStatus" style="margin-top: 10px;">
-        <option value="NO_STATUS">Be statuso</option>
-        <option value="IN_PROGRESS">Žiūrimas dabar</option>
-        <option value="FINISHED">Peržiūrėtas</option>
-      </select>
-      <br>
-      <button class="btn btn-outline-secondary" type="button" (click)="saveStatus()" style="margin-top: 10px;">Išsaugoti statusą</button>
-    </div>
-
-  </div>
-
-    
-  <div>
-    <div class="messages">
-      <h4>Komentarai</h4>
-      <div class="message" *ngFor="let comment of userComments">
-        <div class="pic">
-          <img src="/assets/icons/eye.svg" alt="">
-        </div>
-        <div class="message-text">
-          <span class="name">{{comment.name}}</span>
-          <span class="date">{{comment.date | date:'YYYY-MM-dd'}}</span>
-          <p class="comment">{{comment.comment}}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="comment-area">
+      <div class="comment-area">
         <div class="input-area">
-          <form name="messageForm">
-            <div>
-              <textarea type="text" placeholder="Tavo komentaras" name="message" id="message" rows="5" [(ngModel)]="commentText"></textarea>
+          <form
+            name="form"
+            (ngSubmit)="f.form.valid && saveComment()"
+            #f="ngForm"
+            novalidate
+          >
+            <div class="form-group">
+              <textarea
+                type="text"
+                placeholder="Tavo komentaras"
+                name="message"
+                id="message"
+                rows="5"
+                [(ngModel)]="commentText"
+                required
+                minlength="6"
+                maxlength="50"
+                #text="ngModel"
+              ></textarea>
+              <div
+                *ngIf="text.errors && f.submitted"
+                class="alert alert-danger"
+              >
+                <div *ngIf="text.errors.required">
+                  Komentaras yra privalomas.
+                </div>
+                <div *ngIf="text.errors.minlength">
+                  Komentaras turi būti bent 6 simbolių ilgio.
+                </div>
+              </div>
             </div>
-            <button class="btn btn-outline-secondary" type="button" (click)="saveComment()">Išsaugoti komentarą</button>
+            <button class="form-group" class="btn btn-outline-secondary">
+              Išsaugoti komentarą
+            </button>
           </form>
         </div>
+      </div>
     </div>
   </div>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Trinti komentarą</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      Ar tikrai norite ištrinti komentarą: {{ modalContent.comment }}
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
+        Uždaryti
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="deleteComment(modalContent.id)"
+      >
+        Ištrinti komentarą
+      </button>
+    </div>
+  </ng-template>
 </div>
