@@ -77,6 +77,7 @@ export class MovieDetailsComponent implements OnInit {
         },  err =>  {
         });
       }
+        this.commentText = '';
       }, err => {
         this.notifications.showError('Komentaras nebuvo pridėtas.')
       });

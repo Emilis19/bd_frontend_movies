@@ -12,7 +12,7 @@
               >Įvertinimas: <strong>{{ rating }}</strong></span
             > -->
             <span>Įvertinimas: <b>{{rating}}</b></span>
-            <ngb-rating [(rate)]="ratingForSave" (rateChange)="saveRating($event)">></ngb-rating>
+            <ngb-rating [(rate)]="ratingForSave" [(ngModel)]="ratingForSave" (rateChange)="saveRating($event)">></ngb-rating>
           </div>
           <div class="duration">
             <span

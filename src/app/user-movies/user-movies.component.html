@@ -1,6 +1,9 @@
   <div class="main-container">
   <div *ngIf="show" class="movies-container">
   <hr>
+  <h3>
+    Mano filmų sąrašas:
+  </h3>
   <div class="movies-list">
     <div *ngFor="let movie of userMovies" class="movie">
       <a [routerLink]="['/mymovies/' + movie.id]">

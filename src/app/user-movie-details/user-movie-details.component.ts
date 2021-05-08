@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MovieComment } from '../models/MovieComment';
@@ -107,6 +107,7 @@ export class UserMovieDetailsComponent implements OnInit {
               (err) => {}
             );
           }
+          this.commentText = '';
         },
         (err) => {
           this.notifications.showError('Komentaras nebuvo pridėtas.');
@@ -160,6 +161,7 @@ export class UserMovieDetailsComponent implements OnInit {
   }
 
   saveRating(rate: number): void {
+    const prevRating = this.rating;
     if (this.movie?.movieStatus !== 'NO_STATUS') {
       if (this.movie?.imdbID) {
         const userRating: UserMovieRating = {
@@ -185,11 +187,13 @@ export class UserMovieDetailsComponent implements OnInit {
           },
           (err) => {
             this.notifications.showWarning('Nepavyko išsaugoti įvertinimo');
+            this.ratingForSave = prevRating;
           }
         );
       }
     } else {
       this.notifications.showError('Išsaugoti įvertinimą galima tik esant statusui');
+      this.ratingForSave = prevRating;
     }
 
   }
