@@ -45,38 +45,80 @@
   </div>
 
   <div class="messages" style="">
-
-    <h4>Rekomendacijos</h4>
-    <div *ngIf="showRecommendationList" style="margin-top:15px;">
-      <div  *ngFor="let recommendation of recommendationList">
-        <div>
-          <a (click)="navigate(recommendation.passedImdbId)" style="color: black; cursor: pointer;">
-            <h2>{{ recommendation.title }}</h2>
+    <div class="container" *ngIf="showRecommendationList" style="padding: 50px">
+      <div class="row">
+        <div class="col-6">
+          <h3 class="mb-3">Rekomendacijos</h3>
+        </div>
+        <div class="col-6 text-right">
+          <a
+            class="btn btn-primary mb-3 mr-1"
+            href="#carouselExampleIndicators1"
+            role="button"
+            data-slide="prev"
+          >
+            <i class="fa fa-arrow-left"></i>
           </a>
           <a
-          href="javascript:void(0);"
-          class="recommendationDelete"
-          style="color: black;"
-          *ngIf="isAdmin || recommendation.name === currentUser.username"
-          (click)="openRecommendationDelete(recommendationDelete, recommendation)"
-        >
-          <i class="fa fa-remove removeRecommendation" aria-hidden="true"></i>
-        </a>
+            class="btn btn-primary mb-3"
+            href="#carouselExampleIndicators1"
+            role="button"
+            data-slide="next"
+          >
+            <i class="fa fa-arrow-right"></i>
+          </a>
         </div>
-        <div class="short-info">
-          
-          <figure>
-            <img src="{{ recommendation.poster }}" alt="" class="movies-list-img"/>
-          </figure>
-          <div class="rate">
-            <span
-              >Vartotojas: <strong>{{ recommendation.name }}</strong></span
-            >
-          </div>
-          <div class="rate" style="overflow-wrap: break-word;">
-            <span
-              >Rekomendacija: <strong>{{ recommendation.recommendationText }}</strong></span
-            >
+        <div class="col-12">
+          <div
+            id="carouselExampleIndicators1"
+            class="carousel slide"
+            data-ride="carousel"
+          >
+            <div class="carousel-inner">
+              <div
+                class="carousel-item active"
+                *ngFor="
+                  let recommendation of recommendationList;
+                  let index = index;
+                  let isFirst = first
+                "
+                [ngClass]="{ active: isFirst }"
+              >
+                <div class="row">
+                  <div class="short-info" style="margin: auto">
+                    <div class="card" style="max-width: 400px;">
+                      <a (click)="navigate(recommendation.passedImdbId)" style="color: black; cursor: pointer;">
+                        <img
+                          class="img-fluid"
+                          alt="100%x280"
+                          src="{{ recommendation.poster }}"
+                        />
+                        <div class="card-body">
+                          <h4 class="card-title" style="color: black">
+                            {{ recommendation.title }}
+                          </h4>
+                          <p class="card-title" style="color: black">
+                            Autorius: {{ recommendation.name }}
+                          </p>
+                            <p class="card-text" style="color: black; word-wrap: break-word;">
+                              {{ recommendation.recommendationText }}
+                            </p>
+                        </div>
+                      </a>
+                      <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      style="margin:15px;"
+                      *ngIf="isAdmin || recommendation.name === currentUser.username"
+                      (click)="openRecommendationDelete(recommendationDelete, recommendation)"
+                    >
+                      Ištrinti rekomendaciją
+                    </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
