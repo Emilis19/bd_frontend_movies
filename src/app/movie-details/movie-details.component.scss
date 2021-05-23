@@ -213,3 +213,38 @@
         }
       }
   }
+
+  .movies-list-img{
+    object-fit: cover;
+    max-height: 100%;
+    width: 20%;
+    height: 20%;
+  
+    display: block;
+    margin: 0 auto;
+    }
+
+    .recommendation-text {
+      margin-top: 20px;
+      width: 100%;
+      border: none;
+      background: rgba(0, 0, 0, 0.08);
+      padding: 10px;
+      color: rgba(0, 0, 0, 0.3);
+      font-size: 14px;
+      font-weight: bold;
+      font-family: 'Roboto Condensed', sans-serif;
+      border-radius: 15px;
+      &:focus{
+        outline: none;
+      }
+    }
+
+    .recommendationDelete {
+      // padding: 10px;
+      padding-top:5%;
+      position: absolute;
+      display: inline;
+      right: 450px;
+      
+    }

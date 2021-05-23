@@ -11,7 +11,7 @@
             <!-- <span
               >Įvertinimas: <strong>{{ rating }}</strong></span
             > -->
-            <span>Įvertinimas: <b>{{rating}}</b></span>
+            <span>Įvertinimas: <b>{{rating | number : '1.2-2'}}</b></span>
             <ngb-rating [(rate)]="ratingForSave" [(ngModel)]="ratingForSave" (rateChange)="saveRating($event)">></ngb-rating>
           </div>
           <div class="duration">
@@ -56,6 +56,52 @@
         >
           Išsaugoti statusą
         </button>
+              <br>
+      <button
+      class="btn btn-outline-secondary"
+      type="button"
+      style="margin-top:10px;"
+      (click)="openRecommendation(recommendation, movie)"
+    >
+      Pridėti rekomendaciją
+    </button>
+      </div>
+    </div>
+
+
+    <div class="messages" style="">
+
+      <h4>Rekomendacijos</h4>
+      <div *ngIf="showRecommendationList" style="margin-top:15px;">
+        <div  *ngFor="let recommendation of recommendationList">
+          <a (click)="navigate(recommendation.passedImdbId)" style="color: black; cursor: pointer;">
+          <h2>{{ recommendation.title }}</h2>
+        </a>
+        <a
+        href="javascript:void(0);"
+        class="recommendationDelete"
+        style="color: black;"
+        *ngIf="isAdmin || recommendation.name === currentUser.username"
+        (click)="openRecommendationDelete(recommendationDelete, recommendation)"
+      >
+        <i class="fa fa-remove removeRecommendation" aria-hidden="true"></i>
+      </a>
+          <div class="short-info">
+            <figure>
+              <img src="{{ recommendation.poster }}" alt="" class="movies-list-img"/>
+            </figure>
+            <div class="rate">
+              <span
+                >Vartotojas: <strong>{{ recommendation.name }}</strong></span
+              >
+            </div>
+            <div class="rate" style="overflow-wrap: break-word;">
+              <span
+                >Rekomendacija: <strong>{{ recommendation.recommendationText }}</strong></span
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -149,6 +195,90 @@
         (click)="deleteComment(modalContent.id)"
       >
         Ištrinti komentarą
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #recommendation let-recommendation>
+    <div class="modal-header">
+      <h4 class="modal-title" id="recommendationTitle">Palikti rekomendaciją</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="recommendation.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      Pasirinkite filmą kurį rekomenduosite:
+      <div class="" *ngIf="showRecommendation" style="max-height:400px; overflow-y: scroll; margin-top:10px;">
+        <div class="" *ngFor="let movie of moiveList;let i=index;">
+          <figure>
+            <img src="{{ movie.poster }}" alt="" class="movies-list-img"/>
+          </figure>
+          <span class="title">{{ movie.title }}</span>
+          <br>
+          <span class="rate">{{ movie.year }}</span>
+          <br>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="recommendationCheck{{i}}" [(ngModel)]="checkboxes[i]" (click)="onCheckboxChange($event, movie)">
+            <label class="form-check-label" for="recommendationCheck{{i}}">Pasirinkti šį filmą</label>
+          </div>
+          <hr/>
+        </div>
+      </div>
+      <br>
+      Palikite rekomendacijos tekstą:
+      <br>
+      <textarea
+      type="text"
+      placeholder="Rekomendacijos tekstas"
+      class="recommendation-text"
+      #recommendationText
+    ></textarea>
+  
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="recommendation.dismiss()">
+        Uždaryti
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="saveRecommendation(recommendationText.value)"
+      >
+        Palikti rekomendaciją
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #recommendationDelete let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="recommendationDeleteTitle">Trinti rekomendaciją</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      Ar tikrai norite ištrinti rekomendaciją filmui: <strong>{{ recommendationDeleteContent.title }}</strong>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
+        Uždaryti
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="deleteRecommendation(recommendationDeleteContent.id)"
+      >
+        Ištrinti rekomendaciją
       </button>
     </div>
   </ng-template>

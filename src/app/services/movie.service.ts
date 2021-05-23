@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MovieComment } from '../models/MovieComment';
+import { Recommendation } from '../models/Recommendation';
 import { SavedMovieRequest } from '../models/SavedMovieRequest';
 import { UserMovieRating } from '../models/UserMovieRating';
 
@@ -73,5 +74,25 @@ export class MovieService {
 
   saveMovieRating(rating: UserMovieRating): Observable<any> {
     return this.http.post(MOVIE_API + 'ratings/save', rating, httpOptions);
+  }
+
+  getValidMovies(userId: string, imdbId: string): Observable<any> {
+    return this.http.get(MOVIE_API + 'validmovies/' + userId + '/' + imdbId, httpOptions);
+  }
+
+  getRecommendationsForMovie(imdbId: string): Observable<any> {
+    return this.http.get(MOVIE_API + 'recommendations/' + imdbId, httpOptions);
+  }
+
+  saveRecommendation(recommendation: Recommendation): Observable<any> {
+    return this.http.post(MOVIE_API + 'recommendations/save', recommendation, httpOptions);
+  }
+
+  deleteMovieRecommendations(movieId: string, userId: string): Observable<any> {
+    return this.http.delete(MOVIE_API + 'recommendations/delete/' + movieId + '/' + userId, httpOptions)
+  }
+
+  deleteRecommendationById(recommendationId: string): Observable<any> {
+    return this.http.delete(MOVIE_API + 'recommendations/delete/' + recommendationId, httpOptions)
   }
 }
