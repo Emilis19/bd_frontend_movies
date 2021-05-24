@@ -7,6 +7,9 @@ import { SavedMovieRequest } from '../models/SavedMovieRequest';
 import { UserMovieRating } from '../models/UserMovieRating';
 
 const MOVIE_API = 'http://localhost:8080/api/movies/';
+const RECOMMENDATIONS_API = 'http://localhost:8080/api/recommendations/';
+const COMMENTS_API = 'http://localhost:8080/api/comments/';
+const RATINGS_API = 'http://localhost:8080/api/ratings/';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -41,11 +44,11 @@ export class MovieService {
   }
 
   getComments(imdbId: string): Observable<any> {
-    return this.http.get(MOVIE_API + 'comments/' + imdbId, httpOptions);
+    return this.http.get(COMMENTS_API + imdbId, httpOptions);
   }
 
   saveComment(movieComment: MovieComment): Observable<any> {
-    return this.http.post(MOVIE_API + 'comments/save', movieComment, httpOptions);
+    return this.http.post(COMMENTS_API + 'save', movieComment, httpOptions);
   }
 
   saveMovieStatus(id: string, status: string): Observable<any> {
@@ -65,15 +68,15 @@ export class MovieService {
   }
 
   deleteComment(id: string): Observable<any> {
-    return this.http.delete(MOVIE_API + 'comments/delete/' + id, httpOptions);
+    return this.http.delete(COMMENTS_API + 'delete/' + id, httpOptions);
   }
 
   getMovieRating(imdbId: string): Observable<any> {
-    return this.http.get(MOVIE_API + 'ratings/' + imdbId, httpOptions);
+    return this.http.get(RATINGS_API + imdbId, httpOptions);
   }
 
   saveMovieRating(rating: UserMovieRating): Observable<any> {
-    return this.http.post(MOVIE_API + 'ratings/save', rating, httpOptions);
+    return this.http.post(RATINGS_API + 'save', rating, httpOptions);
   }
 
   getValidMovies(userId: string, imdbId: string): Observable<any> {
@@ -81,18 +84,18 @@ export class MovieService {
   }
 
   getRecommendationsForMovie(imdbId: string): Observable<any> {
-    return this.http.get(MOVIE_API + 'recommendations/' + imdbId, httpOptions);
+    return this.http.get(RECOMMENDATIONS_API + imdbId, httpOptions);
   }
 
   saveRecommendation(recommendation: Recommendation): Observable<any> {
-    return this.http.post(MOVIE_API + 'recommendations/save', recommendation, httpOptions);
+    return this.http.post(RECOMMENDATIONS_API + 'save', recommendation, httpOptions);
   }
 
   deleteMovieRecommendations(movieId: string, userId: string): Observable<any> {
-    return this.http.delete(MOVIE_API + 'recommendations/delete/' + movieId + '/' + userId, httpOptions)
+    return this.http.delete(RECOMMENDATIONS_API + 'delete/' + movieId + '/' + userId, httpOptions)
   }
 
   deleteRecommendationById(recommendationId: string): Observable<any> {
-    return this.http.delete(MOVIE_API + 'recommendations/delete/' + recommendationId, httpOptions)
+    return this.http.delete(RECOMMENDATIONS_API + 'delete/' + recommendationId, httpOptions)
   }
 }
