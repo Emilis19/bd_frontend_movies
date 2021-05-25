@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NotificationService } from './notification.service';
 
-const AUTH_API = 'http://localhost:8080/api/auth/';
+const AUTH_API = 'https://movie-library-be-em.herokuapp.com/api/auth/';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
