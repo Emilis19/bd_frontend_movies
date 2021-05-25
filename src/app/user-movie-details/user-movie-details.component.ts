@@ -85,7 +85,7 @@ export class UserMovieDetailsComponent implements OnInit {
             this.moiveList = data;
             this.showRecommendation = true;
           }, err => {
-            this.notifications.showError('Klaida randant filmus rekomendacijai');
+            // this.notifications.showError('Klaida randant filmus rekomendacijai');
           });
 
         }
