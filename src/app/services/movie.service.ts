@@ -6,10 +6,10 @@ import { Recommendation } from '../models/Recommendation';
 import { SavedMovieRequest } from '../models/SavedMovieRequest';
 import { UserMovieRating } from '../models/UserMovieRating';
 
-const MOVIE_API = 'http://localhost:8080/api/movies/';
-const RECOMMENDATIONS_API = 'http://localhost:8080/api/recommendations/';
-const COMMENTS_API = 'http://localhost:8080/api/comments/';
-const RATINGS_API = 'http://localhost:8080/api/ratings/';
+const MOVIE_API = 'https://movie-library-be-em.herokuapp.com/api/movies/';
+const RECOMMENDATIONS_API = 'https://movie-library-be-em.herokuapp.com/api/recommendations/';
+const COMMENTS_API = 'https://movie-library-be-em.herokuapp.com/api/comments/';
+const RATINGS_API = 'https://movie-library-be-em.herokuapp.com/api/ratings/';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
